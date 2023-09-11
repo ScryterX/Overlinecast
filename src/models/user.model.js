@@ -20,11 +20,16 @@ const userSchema = new mongoose.Schema({
   },
   permissions: {
     type: Array,
-    required: true,
+    required: false,
+    default: ["user"],
   },
   profileImg: {
     type: String,
     required: false,
+  },
+  date: {
+    type: Date,
+    default: Date.now(),
   },
 });
 

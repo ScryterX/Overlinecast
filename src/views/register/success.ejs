@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head.ejs') %>
+  <body>
+    <%- include('../partials/register/navbar.ejs') %>
+    <div class="container mt-4">
+      <!-- Seção para mensagens de sucesso -->
+      <% if (success_msg && success_msg.length > 0) { %>
+      <div class="alert alert-success"><%= success_msg %></div>
+      <% } %>
+
+      <!-- Seção para mensagens de erro -->
+      <% if (error_msg && error_msg.length > 0) { %>
+      <div class="alert alert-danger">
+        <% error_msg.forEach(function(error) { %>
+        <p><%= error %></p>
+        <% }); %>
+      </div>
+      <% } %>
+
+      <!-- Resto do conteúdo da página -->
+      <h2>Conta de usuário criada com sucesso:</h2>
+      <p>
+        Sua conta de usuário foi criada com sucesso. Agora você pode fazer o
+        login usando suas credenciais.
+      </p>
+      <a href="/login" class="btn btn-primary">Fazer Login</a>
+    </div>
+  </body>
+  <%- include('../partials/register/scripts.ejs') %>
+</html>

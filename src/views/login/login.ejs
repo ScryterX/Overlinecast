@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head.ejs') %>
+  <body>
+    <%- include('../partials/register/navbar.ejs') %>
+    <div class="container mt-4">
+      <!-- Seção para mensagens de erro -->
+      <% if (error_msg && error_msg.length > 0) { %>
+      <div class="alert alert-danger">
+        <% error_msg.forEach(function(error) { %>
+        <p><%= error %></p>
+        <% }); %>
+      </div>
+      <% } %>
+
+      <h2>Login:</h2>
+      <hr />
+
+      <form action="/login" method="post">
+        <div class="mb-3">
+          <label for="email" class="form-label">E-mail:</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            placeholder="Seu endereço de e-mail"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Senha:</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            placeholder="Sua senha"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Entrar</button>
+      </form>
+    </div>
+  </body>
+  <%- include('../partials/register/scripts.ejs') %>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head.ejs') %>
+  <body>
+    <%- include('../partials/register/navbar.ejs') %>
+    <div class="container mt-4">
+      <!-- Seção para mensagens de sucesso -->
+      <% if (success_msg && success_msg.length > 0) { %>
+      <div class="alert alert-success"><%= success_msg %></div>
+      <% } %>
+
+      <!-- Seção para mensagens de erro -->
+      <% if (error_msg && error_msg.length > 0) { %>
+      <div class="alert alert-danger">
+        <% error_msg.forEach(function(error) { %>
+        <p><%= error %></p>
+        <% }); %>
+      </div>
+      <% } %>
+
+      <h2>Registrar-se:</h2>
+      <hr />
+
+      <form action="/register/registrar" method="post">
+        <div class="mb-3">
+          <label for="firstName" class="form-label">Primeiro Nome:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="firstName"
+            name="firstName"
+            placeholder="Seu primeiro nome"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="lastName" class="form-label">Sobrenome:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="lastName"
+            name="lastName"
+            placeholder="Seu sobrenome"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">E-mail:</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            placeholder="Seu endereço de e-mail"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Senha:</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            placeholder="Sua senha (mínimo de 12 caracteres)"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="confirmPassword" class="form-label">Repetir Senha:</label>
+          <input
+            type="password"
+            class="form-control"
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="Repita a senha"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-success">Registrar</button>
+      </form>
+    </div>
+  </body>
+  <%- include('../partials/register/scripts.ejs') %>
+</html>

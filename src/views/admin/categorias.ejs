@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head.ejs') %>
+  <body>
+    <%- include('../partials/register/navbar.ejs') %>
+    <div class="container mt-4">
+      <!-- Seção para mensagens de sucesso -->
+      <% if (success_msg && success_msg.length > 0) { %>
+      <div class="alert alert-success"><%= success_msg %></div>
+      <% } %>
+
+      <!-- Seção para mensagens de erro -->
+      <% if (error_msg && error_msg.length > 0) { %>
+      <div class="alert alert-danger"><%= error_msg %></div>
+      <% } %>
+      <h2>Lista de categorias:</h2>
+      <hr />
+      <a href="/admin/categorias/add"
+        ><button class="btn btn-success">Nova categoria</button></a
+      >
+    </div>
+    <div class="container mt-4">
+      <% if (categoria && categoria.length > 0) { %>
+      <ul>
+        <% for (let i = 0; i < categoria.length; i++) { %>
+        <div class="card mt-2">
+          <div class="card-body">
+            <div class="container">
+              <div class="right-div">
+                <a href="/admin/categorias/edit/<%= categoria[i]._id %>"
+                  ><button class="btn btn-success mt-4">Editar</button></a
+                >
+                <form action="/admin/categorias/deletar" method="post">
+                  <input
+                    type="hidden"
+                    name="id"
+                    value="<%= categoria[i]._id %>"
+                  />
+                  <button type="submit" class="btn btn-danger mt-4">
+                    Deletar
+                  </button>
+                </form>
+              </div>
+            </div>
+            <h4><%= categoria[i].name %></h4>
+            <small><%= categoria[i].slug %></small>
+            <br />
+            <br />
+            <small>Data de criação: <%= categoria[i].date %></small>
+          </div>
+        </div>
+        <% } %>
+      </ul>
+
+      <% } else {%>
+      <h4>Nenhuma categoria registrada</h4>
+      <% } %>
+    </div>
+  </body>
+</html>

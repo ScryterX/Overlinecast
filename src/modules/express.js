@@ -1,9 +1,39 @@
 const express = require("express");
 const UserModel = require("../models/user.model");
-const port = 8080;
+const path = require("path");
+const bodyParser = require("body-parser");
 const app = express();
+const admin = require("./routes/admin");
+const register = require("./routes/register");
+const login = require("./routes/login");
 
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "..", "..", "public")));
+const session = require("express-session");
+const flash = require("connect-flash");
+
+app.use(
+  session({
+    secret: `${process.env.SESSION_SECRET}`,
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.error_msg = req.flash("error_msg");
+  next();
+});
+
+//Body Parser
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+//Rotas
+app.use("/admin", admin);
+app.use("/register", register);
+app.use("/login", login);
 
 app.set("view engine", "ejs");
 app.set("views", "src/views");
@@ -68,4 +98,5 @@ app.delete("/users/:id", async (req, res) => {
   }
 });
 
+const port = 8080;
 app.listen(port, () => console.log(`Rodando com Express na porta ${port}!`));
