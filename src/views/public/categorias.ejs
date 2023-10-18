@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head.ejs') %>
+  <body>
+    <%- include('../partials/register/navbar.ejs') %>
+    <div class="container mt-4">
+      <!-- Seção para mensagens de sucesso -->
+      <% if (success_msg && success_msg.length > 0) { %>
+      <div class="alert alert-success"><%= success_msg %></div>
+      <% } %>
+
+      <!-- Seção para mensagens de erro -->
+      <% if (error_msg && error_msg.length > 0) { %>
+      <div class="alert alert-danger"><%= error_msg %></div>
+      <% } %>
+      <h2>Lista de categorias:</h2>
+      <hr />
+    </div>
+    <div class="container mt-4">
+      <div class="row">
+        <% if (categoria && categoria.length > 0) { %>
+        <% for (let i = 0; i < categoria.length; i++) { %>
+        <div class="col-md-4"> <!-- Cada categoria ocupa 1/3 da largura no Bootstrap (col-md-4) -->
+          <div class="card mb-4">
+            <img src="<%= categoria[i].imagem %>" class="card-img-top" alt="<%= categoria[i].name %>">
+            <div class="card-body">
+              <h5 class="card-title"><%= categoria[i].name %></h5>
+              <p class="card-text"><%= categoria[i].slug %></p>
+              <!-- <p class="card-text">Data de criação: <%= categoria[i].date %></p> -->
+            </div>
+          </div>
+        </div>
+        <% } %>
+        <% } else { %>
+        <div class="col-md-12">
+          <h4>Nenhuma categoria registrada</h4>
+        </div>
+        <% } %>
+      </div>
+    </div>
+    </div>
+  </body>
+</html>

@@ -2,18 +2,6 @@
 <html lang="en">
   <%- include('./partials/head.ejs') %>
   <body>
-    <!-- <div class="container"> -->
-    <%- include('./partials/navbar.ejs') %>
-    <div class="content">
-      <% if (users.length > 0) { %> <% users.forEach(user => { %>
-      <h3 class="title"><%= user.firstName %> <%= user.lastName %></h3>
-      <p><%= user.email %></p>
-      <% if (user.profileImg != null) { %>
-      <img src="<%= user.profileImg %>" alt="<%= user.firstName %>" />
-      <% } %> <% }) %> <% } else { %>
-      <p>Não há usuários para exibir...</p>
-      <% } %>
-      <!-- </div> -->
-    </div>
+    <%- include('./partials/register/navbar.ejs') %>
   </body>
 </html>

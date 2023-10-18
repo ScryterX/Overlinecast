@@ -20,6 +20,9 @@
     "express-session": "^1.17.3",
     "joi": "^17.10.1",
     "mongodb": "^6.0.0",
-    "mongoose": "^7.5.0"
+    "mongoose": "^7.5.0",
+    "node-media-server": "^2.6.2",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0"
   }
 }

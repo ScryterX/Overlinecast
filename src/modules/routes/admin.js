@@ -3,29 +3,29 @@ const UserModel = require("../../models/user.model");
 const router = express.Router();
 const mongoose = require("mongoose");
 const CategorieModel = require("../../models/categories.model");
-const Categories = mongoose.model("Categories");
+// const Categories = mongoose.model("Categories");
 const Joi = require("joi");
 const fs = require("fs");
 const path = require("path");
-
+const { permissions } = require("../../helpers/check_permissions");
 router.get("/", (req, res) => {
   res.render("admin/admin");
 });
 
-router.get("/categorias", async (req, res) => {
+router.get("/categorias", permissions, async (req, res) => {
   try {
     const categories = await CategorieModel.find({});
-    res.render("admin/categorias", { categoria: categories }); // Passa as categorias para o modelo de exibição
+    res.render("admin/categorias", { categoria: categories, user: req.user });
   } catch (error) {
     return res.status(500).send(error.message);
   }
 });
 
-router.get("/categorias/add", (req, res) => {
+router.get("/categorias/add", permissions, (req, res) => {
   res.render("admin/categorias/addcategorias");
 });
 
-router.post("/categorias/nova", async (req, res) => {
+router.post("/categorias/nova", permissions, async (req, res) => {
   // Defina um esquema de validação para os dados do formulário
   const categoriaSchema = Joi.object({
     name: Joi.string().min(5).required(),
@@ -57,7 +57,7 @@ router.post("/categorias/nova", async (req, res) => {
   }
 });
 
-router.get("/categorias/edit/:id", async (req, res) => {
+router.get("/categorias/edit/:id", permissions, async (req, res) => {
   try {
     var id = req.params.id;
     const item = await CategorieModel.findById(id);
@@ -67,7 +67,7 @@ router.get("/categorias/edit/:id", async (req, res) => {
   }
 });
 
-router.post("/categorias/edit", async (req, res) => {
+router.post("/categorias/edit", permissions, async (req, res) => {
   // Defina um esquema de validação para os dados do formulário
   const categoriaSchema = Joi.object({
     name: Joi.string().min(5).required(),
@@ -108,7 +108,7 @@ router.post("/categorias/edit", async (req, res) => {
   }
 });
 
-router.post("/categorias/deletar", async (req, res) => {
+router.post("/categorias/deletar", permissions, async (req, res) => {
   try {
     const id = req.body.id; // Obtenha o ID da categoria a ser atualizada
 
@@ -128,7 +128,7 @@ router.post("/categorias/deletar", async (req, res) => {
     res.status(500).render("badRequest", { bodyErrors: error.message });
   }
 });
-router.get("/users", async (req, res) => {
+router.get("/users", permissions, async (req, res) => {
   try {
     const users = await UserModel.find({});
 
