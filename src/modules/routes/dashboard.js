@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
-
+const { permissions } = require("../../helpers/check_permissions");
 // Em seu controlador
 const serverInfo = {
   ip: "localhost",
@@ -9,7 +9,7 @@ const serverInfo = {
   app: "live", // Nome do aplicativo RTMP
 };
 
-router.get("/", (req, res) => {
+router.get("/", permissions, (req, res) => {
   res.render("users/dashboard", { serverInfo });
 });
 
