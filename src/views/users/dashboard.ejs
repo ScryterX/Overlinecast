@@ -3,38 +3,35 @@
   <%- include('../partials/head.ejs') %>
   <body>
     <%- include('../partials/register/navbar.ejs') %>
-    <body>
-      <div class="container">
-        <h1>Transmissão ao Vivo</h1>
-        <video id="video-player" controls autoplay></video>
+    <div class="container">
+      <h1>Transmissão ao Vivo</h1>
+      <video id="video-player" controls autoplay muted></video>
+      <h1>Informações do Servidor</h1>
+      <p>Endereço IP: <%= serverInfo.ip %></p>
+      <p>Porta RTMP: <%= serverInfo.port %></p>
+      <p>Aplicativo RTMP: <%= serverInfo.app %></p>
+    </div>
 
-        <h1>Informações do Servidor</h1>
-        <p>Endereço IP: <%= serverInfo.ip %></p>
-        <p>Porta RTMP: <%= serverInfo.port %></p>
-        <p>Aplicativo RTMP: <%= serverInfo.app %></p>
-      </div>
-
-      <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-      <script type="text/javascript">
-        document.addEventListener("DOMContentLoaded", function () {
-          if (Hls.isSupported()) {
-            var videoPlayer = document.getElementById("video-player");
-            var hls = new Hls();
-            hls.loadSource("http://localhost:8000/"); // Substitua 'seuatendimento' pelo identificador da transmissão
-            hls.attachMedia(videoPlayer);
-            hls.on(Hls.Events.MANIFEST_PARSED, function () {
-              videoPlayer.play();
-            });
-          } else if (videoPlayer.canPlayType("application/vnd.apple.mpegurl")) {
-            var videoPlayer = document.getElementById("video-player");
-            videoPlayer.src =
-              "http://localhost:8000/view-stream/seuatendimento"; // Substitua 'seuatendimento' pelo identificador da transmissão
-            videoPlayer.addEventListener("loadedmetadata", function () {
-              videoPlayer.play();
-            });
-          }
-        });
-      </script>
-    </body>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script type="text/javascript">
+      document.addEventListener("DOMContentLoaded", function () {
+        var videoPlayer = document.getElementById("video-player");
+        if (Hls.isSupported()) {
+          var hls = new Hls();
+          // Substitua 'STREAM_ID' pelo identificador da transmissão
+          hls.loadSource("http://localhost:8000/live/STREAMID/index.m3u8");
+          hls.attachMedia(videoPlayer);
+          hls.on(Hls.Events.MANIFEST_PARSED, function () {
+            videoPlayer.play();
+          });
+        } else if (videoPlayer.canPlayType("application/vnd.apple.mpegurl")) {
+          // Substitua 'STREAM_ID' pelo identificador da transmissão
+          videoPlayer.src = "http://localhost:8000/live/STREAMID/index.m3u8";
+          videoPlayer.addEventListener("loadedmetadata", function () {
+            videoPlayer.play();
+          });
+        }
+      });
+    </script>
   </body>
 </html>
