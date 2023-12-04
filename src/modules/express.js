@@ -10,7 +10,9 @@ const logout = require("./routes/logout");
 const dashboard = require("./routes/dashboard");
 const public = require("./routes/public");
 const streamRouter = require("./routes/stream");
+const watch = require("./routes/watch");
 const nms = require("./routes/nms");
+
 nms.run();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "..", "..", "public")));
@@ -52,9 +54,17 @@ app.use("/logout", logout);
 app.use("/dashboard", dashboard);
 app.use("/", public);
 app.use("/streams", streamRouter);
+app.use("/watch", watch);
 
 app.set("view engine", "ejs");
 app.set("views", "src/views");
+
+// // Lógica de WebSocket
+// io.on("connection", (socket) => {
+//   console.log("Usuário conectado");
+
+//   // Pode implementar funcionalidades adicionais aqui
+// });
 // router.get("/", (req, res) => {
 //   res.render("public/main");
 // });

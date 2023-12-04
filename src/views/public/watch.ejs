@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head.ejs') %>
+  <body>
+    <%- include('../partials/register/navbar.ejs') %>
+    <div class="container">
+      <div class="row justify-content-center">
+        <!-- Conteúdo Principal -->
+        <div class="col-md-6">
+          <h1>Transmissão ao Vivo</h1>
+          <video
+            id="video-player"
+            controls
+            autoplay
+            muted
+            width="100%"
+            height="360"
+          ></video>
+          <div class="ms-auto">
+            <form
+              id="categoryForm"
+              action="/dashboard/path-to-update-category"
+              method="POST"
+            >
+              <button type="submit" class="btn btn-danger 100">
+                Reportar problema
+              </button>
+            </form>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script type="text/javascript">
+      document.addEventListener("DOMContentLoaded", function () {
+        var videoPlayer = document.getElementById("video-player");
+        if (Hls.isSupported()) {
+          var hls = new Hls();
+          // Substitua 'STREAM_ID' pelo identificador da transmissão
+          hls.loadSource("<%= streamUrl %>");
+          hls.attachMedia(videoPlayer);
+          hls.on(Hls.Events.MANIFEST_PARSED, function () {
+            videoPlayer.play();
+          });
+        } else if (videoPlayer.canPlayType("application/vnd.apple.mpegurl")) {
+          // Substitua 'STREAM_ID' pelo identificador da transmissão
+          videoPlayer.src = "<%= streamUrl %>";
+          videoPlayer.addEventListener("loadedmetadata", function () {
+            videoPlayer.play();
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -16,7 +16,12 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: 12,
+    minlength: 8,
+  },
+  username: {
+    type: String,
+    required: true,
+    unique: true,
   },
   permissions: {
     type: Array,
@@ -30,6 +35,15 @@ const userSchema = new mongoose.Schema({
   date: {
     type: Date,
     default: Date.now(),
+  },
+  StreamId: {
+    type: String,
+    required: false,
+    unique: true,
+  },
+  selectedCategory: {
+    type: String,
+    required: false,
   },
 });
 

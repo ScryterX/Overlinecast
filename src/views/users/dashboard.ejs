@@ -4,14 +4,92 @@
   <body>
     <%- include('../partials/register/navbar.ejs') %>
     <div class="container">
-      <h1>Transmissão ao Vivo</h1>
-      <video id="video-player" controls autoplay muted></video>
-      <h1>Informações do Servidor</h1>
-      <p>Endereço IP: <%= serverInfo.ip %></p>
-      <p>Porta RTMP: <%= serverInfo.port %></p>
-      <p>Aplicativo RTMP: <%= serverInfo.app %></p>
-    </div>
+      <div class="row justify-content-center">
+        <!-- Conteúdo Principal -->
+        <div class="col-md-6">
+          <h1>Transmissão ao Vivo</h1>
+          <video
+            id="video-player"
+            controls
+            autoplay
+            muted
+            width="100%"
+            height="360"
+          ></video>
+          <h1>Informações do Servidor</h1>
+          <div class="mb-3">
+            <label for="serverInfoIP" class="form-label">Endereço IP:</label>
+            <input
+              type="text"
+              id="serverInfoIP"
+              class="form-control"
+              value="<%= serverInfo.ip %>:<%= serverInfo.app %>"
+              readonly
+            />
+          </div>
 
+          <div class="mb-3">
+            <label for="streamKey" class="form-label"
+              >Chave de transmissão:</label
+            >
+            <div class="input-group">
+              <input
+                type="password"
+                id="streamKey"
+                class="form-control"
+                value="<%= serverInfo.key %>"
+                readonly
+              />
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                id="toggleKeyVisibility"
+              >
+                <i class="bi bi-eye-slash" id="eyeIcon"></i>
+              </button>
+            </div>
+          </div>
+          <!-- Em dashboard.ejs -->
+          <div class="d-flex align-items-center">
+            <div>
+              <select
+                name="selectedCategory"
+                id="categorySelect"
+                form="categoryForm"
+              >
+                <% categories.forEach(function(category) { %>
+                <option value="<%= category._id %>">
+                  <%= category.name %>
+                </option>
+                <% }); %>
+              </select>
+            </div>
+
+            <div class="ms-auto">
+              <form
+                id="categoryForm"
+                action="/dashboard/path-to-update-category"
+                method="POST"
+              >
+                <button type="submit" class="btn btn-primary">
+                  Salvar Categoria
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Container do Chat -->
+        <div class="col-md-4">
+          <iframe
+            src="https://chat.restream.io/embed?token=63a94e9f-1525-483d-8d4b-af1c63bf0a76"
+            width="100%"
+            height="600"
+            style="border: none"
+          ></iframe>
+        </div>
+      </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script type="text/javascript">
       document.addEventListener("DOMContentLoaded", function () {
@@ -32,6 +110,29 @@
           });
         }
       });
+    </script>
+
+    <script>
+      document
+        .getElementById("toggleKeyVisibility")
+        .addEventListener("click", function () {
+          var confirmed = confirm(
+            "Atenção: A chave de transmissão é um dado sensível. Não compartilhe com ninguém."
+          );
+          if (confirmed) {
+            var keyInput = document.getElementById("streamKey");
+            var eyeIcon = document.getElementById("eyeIcon");
+            if (keyInput.type === "password") {
+              keyInput.type = "text";
+              eyeIcon.classList.remove("bi-eye-slash");
+              eyeIcon.classList.add("bi-eye");
+            } else {
+              keyInput.type = "password";
+              eyeIcon.classList.remove("bi-eye");
+              eyeIcon.classList.add("bi-eye-slash");
+            }
+          }
+        });
     </script>
   </body>
 </html>
